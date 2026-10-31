@@ -1,0 +1,21 @@
+name: Check doc references
+description: Fails when a file in the repository names a doc/ page that does not exist.
+inputs:
+  exclude:
+    description: Prefixes to leave alone, one per line, such as a directory of generated files (doc/api/).
+    required: false
+    default: ''
+runs:
+  using: composite
+  steps:
+    - name: Every doc/ path named anywhere exists
+      shell: bash
+      # Through the environment, not interpolated into the script, so an input cannot become code.
+      env:
+        EXCLUDE: ${{ inputs.exclude }}
+      run: |
+        args=()
+        while read -r prefix; do
+          [[ -n "$prefix" ]] && args+=(--exclude "$prefix")
+        done <<< "$EXCLUDE"
+        python3 "$GITHUB_ACTION_PATH/check_doc_references.py" "${args[@]}"

@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check-doc-references:
+    name: check-doc-references
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Unit tests
+        run: python3 -m unittest discover -s check-doc-references -v
+      - name: The action itself, on this repository
+        # The README names doc/api/ as its example and nothing else under doc/, so this fails
+        # unless the exclude input reaches the script.
+        uses: ./check-doc-references
+        with:
+          exclude: doc/api/
