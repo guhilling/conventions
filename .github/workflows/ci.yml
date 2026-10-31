@@ -11,14 +11,17 @@ permissions:
 jobs:
   check-doc-references:
     name: check-doc-references
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Unit tests
         run: python3 -m unittest discover -s check-doc-references -v
       - name: The action itself, on this repository
-        # The README names doc/api/ as its example and nothing else under doc/, so this fails
-        # unless the exclude input reaches the script.
+        # This repository has no documentation, only examples naming pages that do not exist, in
+        # the tests and the README. Two prefixes covering all of them, so this passes only if the
+        # input reaches the script line by line.
         uses: ./check-doc-references
         with:
-          exclude: doc/api/
+          exclude: |
+            doc/moved.md
+            doc/

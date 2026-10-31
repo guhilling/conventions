@@ -13,7 +13,7 @@ that does not exist: a code comment, an OpenTofu file, a CLAUDE.md or a workflow
 not links, so nothing else notices when the page they name moves.
 
 ```yaml
-- uses: actions/checkout@v5
+- uses: actions/checkout@v7
 - uses: guhilling/dev-conventions/check-doc-references@<commit sha> # v1.0.0
   with:
     exclude: doc/api/   # optional; one prefix per line, e.g. generated files
