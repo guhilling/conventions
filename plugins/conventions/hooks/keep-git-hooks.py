@@ -32,7 +32,7 @@ def main():
     command = json.load(sys.stdin).get("tool_input", {}).get("command", "")
     if disables_git_hooks(command):
         print("This command would skip or disable the git hooks in .githooks, which keep pushes "
-              "away from main (CLAUDE.md, Workflow). Push a branch and open a pull request "
+              "away from main (the repository's CLAUDE.md). Push a branch and open a pull request "
               "instead; if the hooks themselves need changing, edit them in a pull request.",
               file=sys.stderr)
         return 2

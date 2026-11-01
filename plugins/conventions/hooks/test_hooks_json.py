@@ -33,10 +33,11 @@ def files(hook):
 
 class SessionStartTest(unittest.TestCase):
 
-    def test_prints_the_rules_on_every_kind_of_start(self):
-        # No matcher: startup, resume, /clear and a compaction all get the rules again.
+    def test_prints_the_rules_whenever_the_context_starts_empty(self):
+        # A new session, /clear and a compaction start without them. A resumed or forked session
+        # keeps the copy its transcript already holds, so printing them again would add a second.
         groups = HOOKS["SessionStart"]
-        self.assertEqual([None], [group.get("matcher") for group in groups])
+        self.assertEqual(["startup|clear|compact"], [group.get("matcher") for group in groups])
         self.assertEqual([("cat", [PLUGIN_ROOT / "rules.md"])],
                          [(hook["command"], files(hook)) for hook in commands("SessionStart")])
 

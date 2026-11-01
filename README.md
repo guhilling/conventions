@@ -60,7 +60,8 @@ This repository is also a Claude Code plugin marketplace, `dev-conventions`, wit
   instead of guessing, the pull request workflow and its reviews, branches, `/doc` and its
   chapters, secrets, Renovate, issues, TDD and existing tests. A SessionStart hook prints the file,
   and Claude Code adds what a SessionStart hook prints to the session's context, so the rules are
-  always there: at startup, on resume, after `/clear` and after a compaction. A plugin cannot carry
+  always there: at startup, after `/clear` and after a compaction. A resumed session keeps the copy
+in its transcript, so the hook does not print a second one. A plugin cannot carry
   a `CLAUDE.md` of its own, and a skill would be loaded only when Claude decides it is relevant.
   Claude Code takes at most 10,000 characters from a hook this way, and a test holds the file
   under that.
