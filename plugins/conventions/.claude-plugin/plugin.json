@@ -1,0 +1,10 @@
+{
+  "name": "conventions",
+  "description": "The shared rules, always in context, and the guard hooks that keep pushes off main and infrastructure unapplied.",
+  "author": {
+    "name": "Gunnar Hilling",
+    "url": "https://github.com/guhilling"
+  },
+  "repository": "https://github.com/guhilling/dev-conventions",
+  "license": "Apache-2.0"
+}
