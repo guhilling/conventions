@@ -13,13 +13,16 @@ that does not exist: a code comment, an OpenTofu file, a CLAUDE.md or a workflow
 not links, so nothing else notices when the page they name moves.
 
 ```yaml
-- uses: actions/checkout@v5
+- uses: actions/checkout@v7
 - uses: guhilling/dev-conventions/check-doc-references@<commit sha> # v1.0.0
+  # Optional: prefixes to leave alone, one per line, such as generated files.
   with:
-    exclude: doc/api/   # optional; one prefix per line, e.g. generated files
+    exclude: |
+      doc/api/
 ```
 
-A reference is `doc` followed by a path ending in `.md`, or by a chapter directory with its
+It checks the repository checked out at the workspace's root, as `actions/checkout` does without
+a `path`. A reference is `doc` followed by a path ending in `.md`, or by a chapter directory with its
 trailing slash. Only files git tracks are read.
 
 To run it locally, from anywhere inside the repository:

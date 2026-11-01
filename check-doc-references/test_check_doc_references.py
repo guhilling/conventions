@@ -49,6 +49,13 @@ class FindReferencesTest(unittest.TestCase):
     def test_the_bare_folder_and_other_files_are_not_checked_as_documents(self):
         self.assertEqual(check.references("the logo is doc/logo.svg, somewhere in doc/"), [])
 
+    def test_a_chapter_or_page_at_the_end_of_a_sentence(self):
+        self.assertEqual(check.references("see doc/deployment/. Or doc/decisions/index.md."),
+                         ["doc/deployment/", "doc/decisions/index.md"])
+
+    def test_a_longer_file_name_is_not_the_page_it_starts_with(self):
+        self.assertEqual(check.references("doc/notes.md-draft, doc/page.md.orig"), [])
+
     def test_an_excluded_directory_is_left_alone(self):
         # TaskFest's doc/api/ holds generated files, not documentation.
         text = "doc/api/openapi.md and doc/apis/index.md"
