@@ -31,6 +31,26 @@ To run it locally, from anywhere inside the repository:
 curl -fsSL https://raw.githubusercontent.com/guhilling/dev-conventions/v1.0.0/check-doc-references/check_doc_references.py | python3 - --exclude doc/api/
 ```
 
+## Renovate preset
+
+`default.json` is the Renovate policy the repositories share: weekly pull requests before 6am on
+Monday (Berlin), patch and minor updates merging themselves once every check is green, and majors
+waiting for a human. A repository extends it and adds only its own rules on top:
+
+```json
+{
+  "extends": ["github>guhilling/dev-conventions#v1.1.0"]
+}
+```
+
+Pinned to a tag, Renovate's `renovate-config` manager opens the pull request that moves the
+repository to a newer one.
+
+`platformAutomerge` is off on purpose: without a ruleset that requires status checks, GitHub's
+own auto-merge would merge before anything had run. The schedule restricts when pull requests are
+opened, not when they merge, and Renovate can also be started from the Mend dashboard, so activity
+outside it is expected.
+
 ## Releases
 
 A release is a lightweight tag `vX.Y.Z` on `main`, without a GitHub Release. A fix is a patch,
