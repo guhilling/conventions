@@ -16,12 +16,29 @@ jobs:
       - uses: actions/checkout@v7
       - name: Unit tests
         run: python3 -m unittest discover -s check-doc-references -v
-      - name: The action itself, on this repository
-        # This repository has no documentation, only examples naming pages that do not exist, in
-        # the tests and the README. Two prefixes covering all of them, so this passes only if the
-        # input reaches the script line by line.
+      # The action itself, on a fixture: this repository's own files name example pages that do not
+      # exist, so they are taken out of the index first and only the fixture is tracked.
+      - name: A fixture naming generated files under two prefixes
+        run: |
+          git rm -r -q --cached .
+          mkdir fixture
+          printf '# generated into doc/api/openapi.md\n# and doc/gen/index.md\n' > fixture/generated.txt
+          git add fixture
+      - name: Passes only if both lines of the input reach the script
         uses: ./check-doc-references
         with:
           exclude: |
-            doc/moved.md
-            doc/
+            doc/api/
+            doc/gen/
+      - name: A dead reference besides them
+        run: printf 'see doc/moved.md\n' > fixture/dead.txt && git add fixture
+      - name: Fails on it
+        id: dead
+        continue-on-error: true
+        uses: ./check-doc-references
+        with:
+          exclude: |
+            doc/api/
+            doc/gen/
+      - name: It did fail
+        run: test "${{ steps.dead.outcome }}" = failure

@@ -24,8 +24,10 @@ import subprocess
 import sys
 
 # Preceded by nothing that would make it part of a longer path (`site/doc/...`), then either a
-# .md file (not .mdx) or a chapter directory with its trailing slash.
-REFERENCE = re.compile(r"(?<![\w./-])(doc/(?:[\w-]+/)*(?:[\w-]+\.md(?!\w)|[\w-]+/(?![\w.-])))")
+# .md file or a chapter directory with its trailing slash, followed by nothing that would make it
+# a longer name (.mdx, .md-draft, .md.orig); a full stop ending the sentence is fine.
+END = r"(?![\w-]|\.\w)"
+REFERENCE = re.compile(rf"(?<![\w./-])(doc/(?:[\w-]+/)*(?:[\w-]+\.md{END}|[\w-]+/{END}))")
 
 
 def references(text, exclude=()):
