@@ -51,3 +51,18 @@ jobs:
       - name: The preset is a valid Renovate config
         # Every repository that extends it would otherwise find out on its next Renovate run.
         run: npx -y --package renovate@latest -- renovate-config-validator --strict default.json
+
+  conventions-plugin:
+    name: conventions-plugin
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Unit tests of the hooks and their wiring
+        run: python3 -m unittest discover -s plugins/conventions/hooks -p 'test_*.py' -v
+      # The validator is Claude Code itself, the latest release as for the preset above, because
+      # that is what the callers run. Without --strict: the one warning is the missing plugin
+      # version, left out on purpose so that the version is the commit the caller's tag names.
+      - name: Claude Code accepts the marketplace and the plugin
+        run: |
+          npx -y @anthropic-ai/claude-code@latest plugin validate .
+          npx -y @anthropic-ai/claude-code@latest plugin validate plugins/conventions

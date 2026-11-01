@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "dev-conventions",
+  "description": "The working conventions shared by Gunnar Hilling's repositories, as a Claude Code plugin.",
+  "owner": {
+    "name": "Gunnar Hilling",
+    "url": "https://github.com/guhilling"
+  },
+  "plugins": [
+    {
+      "name": "conventions",
+      "source": "./plugins/conventions",
+      "description": "The shared rules, always in context, and the guard hooks that keep pushes off main and infrastructure unapplied."
+    }
+  ]
+}

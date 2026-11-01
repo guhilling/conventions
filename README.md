@@ -51,11 +51,87 @@ own auto-merge would merge before anything had run. The schedule restricts when 
 opened, not when they merge, and Renovate can also be started from the Mend dashboard, so activity
 outside it is expected.
 
+## The `conventions` plugin for Claude Code
+
+This repository is also a Claude Code plugin marketplace, `dev-conventions`, with one plugin,
+`conventions`. It holds what the repositories' `CLAUDE.md` files used to repeat:
+
+- **The shared rules**, [`plugins/conventions/rules.md`](plugins/conventions/rules.md): asking
+  instead of guessing, the pull request workflow and its reviews, branches, `/doc` and its
+  chapters, secrets, Renovate, issues, TDD and existing tests. A SessionStart hook prints the file,
+  and Claude Code adds what a SessionStart hook prints to the session's context, so the rules are
+  always there: at startup, after `/clear` and after a compaction. A resumed session keeps the copy
+in its transcript, so the hook does not print a second one. A plugin cannot carry
+  a `CLAUDE.md` of its own, and a skill would be loaded only when Claude decides it is relevant.
+  Claude Code takes at most 10,000 characters from a hook this way, and a test holds the file
+  under that.
+- **Two guards on Bash commands**, as PreToolUse hooks that refuse a command with exit status 2:
+  `keep-git-hooks.py` refuses commands that skip or switch off a repository's `.githooks` (such
+  as `git push --no-verify` or a change to `core.hooksPath`), and `plan-only.py` refuses
+  OpenTofu or Terraform commands that change infrastructure or its state. The `.githooks/pre-push`
+  they protect stays in each repository that has one, because git runs a hook from a fixed path
+  and the plugin's path changes with every version.
+
+The repository's own `CLAUDE.md` keeps its own rules and names what the shared ones leave to it,
+such as its GitHub project. Where the two disagree, the repository's `CLAUDE.md` wins.
+
+A repository turns the plugin on in its committed `.claude/settings.json`, pinned to a tag:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "dev-conventions": {
+      "source": {
+        "source": "github",
+        "repo": "guhilling/dev-conventions",
+        "ref": "v1.2.0"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "conventions@dev-conventions": true
+  }
+}
+```
+
+`claude plugin marketplace add guhilling/dev-conventions#v1.2.0 --scope project` writes the first
+half. The plugin is listed by a relative path inside the marketplace, so once someone has trusted
+the folder, Claude Code loads it from the marketplace's checkout without a separate install. The
+plugin sets no `version`, so its version is the commit the tag names. Renovate has no manager for
+this pin, so each repository moves it with a regex manager:
+
+```json
+{
+  "customType": "regex",
+  "managerFilePatterns": ["/^\\.claude/settings\\.json$/"],
+  "matchStrings": ["\"repo\":\\s*\"(?<depName>guhilling/dev-conventions)\",\\s*\"ref\":\\s*\"(?<currentValue>v[^\"]+)\""],
+  "datasourceTemplate": "github-tags"
+}
+```
+
+**Cloud sessions do not get the plugin.** A session on claude.ai/code does not install the plugins
+a repository's `.claude/settings.json` declares: adding a marketplace from a repository waits for
+the workspace trust dialog, which a cloud session never shows ([what carries over to a cloud
+session](https://code.claude.com/docs/en/cloud-environments#what-carries-over-from-your-setup)).
+Such a session has the repository's `CLAUDE.md` and the hooks in its own `.claude/settings.json`,
+but neither the shared rules nor the two guards. That is what the documentation says; it has not
+been tried in a cloud session.
+
+The tests run with:
+
+```sh
+python3 -m unittest discover -s plugins/conventions/hooks -p 'test_*.py'
+```
+
+and `claude plugin validate .` checks the manifests; CI runs both. To try a change before it is
+tagged, start Claude Code with `--plugin-dir plugins/conventions`.
+
 ## Releases
 
 A release is a lightweight tag `vX.Y.Z` on `main`, without a GitHub Release. A fix is a patch,
-anything a caller has to change for is a major. Callers pin the commit SHA with the tag in a
-comment, and Renovate opens the pull request that moves them to a new tag.
+anything a caller has to change for is a major. Callers of the action pin the commit SHA with the
+tag in a comment; the plugin is pinned by the tag itself, because `.claude/settings.json` has no
+comments to carry it. Either way Renovate opens the pull request that moves them to a new tag.
 
 ## License
 
