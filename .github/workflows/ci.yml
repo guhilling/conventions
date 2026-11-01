@@ -50,4 +50,4 @@ jobs:
       - uses: actions/checkout@v7
       - name: The preset is a valid Renovate config
         # Every repository that extends it would otherwise find out on its next Renovate run.
-        run: npx -y --package renovate -- renovate-config-validator --strict default.json
+        run: npx -y --package renovate@latest -- renovate-config-validator --strict default.json
