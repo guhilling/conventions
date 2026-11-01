@@ -59,6 +59,24 @@ class WrittenOverTest(unittest.TestCase):
                 self.assertFalse(hook.disables_git_hooks(command))
 
 
+class ReviewedTest(unittest.TestCase):
+    """Ways around the guard /code-review high found on dev-conventions#4."""
+
+    def test_writing_over_a_hook_after_all(self):
+        for command in ["cp noop.sh .githooks/pre-push 2>/dev/null",
+                        "cp noop.sh .githooks/pre-push >/dev/null",
+                        "cp noop .githooks/pre-push # x",
+                        "cp -t .githooks pre-push", "cp --target-directory=.githooks pre-push",
+                        "sed --in-place 's/main/none/' .githooks/pre-push",
+                        "printf 'exit 0' >| .githooks/pre-push", "cp noop .GitHooks/pre-push"]:
+            with self.subTest(command):
+                self.assertTrue(hook.disables_git_hooks(command))
+
+    def test_a_hook_in_another_case(self):
+        # macOS's file system does not tell the cases apart.
+        self.assertTrue(hook.writes_a_git_hook("/repo/.GitHooks/pre-push"))
+
+
 class FileWriteTest(unittest.TestCase):
     """Claude's Write and Edit onto a hook: put to Gunnar, since a hook is changed that way too."""
 

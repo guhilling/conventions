@@ -47,6 +47,33 @@ class RefusedTest(unittest.TestCase):
                 self.assertTrue(hook.changes_infrastructure(command))
 
 
+class ReviewedTest(unittest.TestCase):
+    """Ways around the guard /code-review high found on dev-conventions#4."""
+
+    def test_text_that_is_not_gits_or_ghs_to_store(self):
+        for command in [# A here-document read by a shell, on a line that names git.
+                        'git commit -m "$(bash <<\'EOF\'\ntofu apply -auto-approve\nEOF\n)"',
+                        "bash <<'X'; git commit -F - <<'EOF'\ntofu apply -auto-approve\nX\nm\nEOF",
+                        "bash -s git <<'EOF'\ntofu apply\nEOF",
+                        # git running a shell through an alias.
+                        "git -c alias.x='!sh' x <<'EOF'\ntofu apply -auto-approve\nEOF",
+                        # A trailing backslash is literal in a quoted here-document.
+                        "git commit -F - <<'EOF'\nmsg \\\nEOF\ntofu apply -auto-approve",
+                        # A quote that closes a string, not one that opens a message.
+                        "echo 'a -m '; tofu apply -auto-approve; echo ''",
+                        'echo "a -m "; tofu apply -auto-approve; echo ""',
+                        "bash -c -m 'tofu apply -auto-approve'",
+                        # OpenTofu takes a flag with two dashes as well.
+                        "tofu init --force-copy", "tofu init --migrate-state"]:
+            with self.subTest(command):
+                self.assertTrue(hook.changes_infrastructure(command))
+
+    def test_a_quoted_subcommand_of_env_sh(self):
+        for command in ["./env.sh 'up' qa", './env.sh "down" prod --yes']:
+            with self.subTest(command):
+                self.assertTrue(hook.lifecycle(command))
+
+
 class ConfirmedTest(unittest.TestCase):
     """env.sh's own applies: Gunnar confirms them, not refused (his decision on #470)."""
 
