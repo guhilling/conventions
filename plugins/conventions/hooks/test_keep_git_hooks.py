@@ -36,6 +36,44 @@ class RefusedTest(unittest.TestCase):
                 self.assertTrue(hook.disables_git_hooks(command))
 
 
+class WrittenOverTest(unittest.TestCase):
+    """Commands that write over a hook, which #470 found getting past the checks above."""
+
+    def test_copying_teeing_or_editing_onto_the_hooks(self):
+        for command in ["cp /dev/null .githooks/pre-push", "cp -f noop.sh ./.githooks/pre-push",
+                        "install -m 755 noop .githooks/pre-push",
+                        "echo exit 0 | tee .githooks/pre-push",
+                        "tee -a .githooks/pre-push < /dev/null",
+                        "sed -i '' 's/main/none/' .githooks/pre-push",
+                        "sed -i.bak -e 1q .githooks/pre-push",
+                        "perl -pi -e 's/x/y/' .githooks/pre-push",
+                        "dd if=/dev/null of=.githooks/pre-push"]:
+            with self.subTest(command):
+                self.assertTrue(hook.disables_git_hooks(command))
+
+    def test_reading_or_copying_from_the_hooks(self):
+        for command in ["cp .githooks/pre-push /tmp/pre-push", "sed -n 1,20p .githooks/pre-push",
+                        "diff .githooks/pre-push other/pre-push",
+                        "tee log.txt < .githooks/pre-push"]:
+            with self.subTest(command):
+                self.assertFalse(hook.disables_git_hooks(command))
+
+
+class FileWriteTest(unittest.TestCase):
+    """Claude's Write and Edit onto a hook: put to Gunnar, since a hook is changed that way too."""
+
+    def test_a_file_in_the_hooks(self):
+        for path in ["/repo/.githooks/pre-push", ".githooks/pre-push", "/repo/.githooks/new-hook"]:
+            with self.subTest(path):
+                self.assertTrue(hook.writes_a_git_hook(path))
+
+    def test_any_other_file(self):
+        for path in ["/repo/README.md", "/repo/doc/githooks.md", "/repo/.githooks-notes.md",
+                     "/repo/x.githooks/pre-push", ""]:
+            with self.subTest(path):
+                self.assertFalse(hook.writes_a_git_hook(path))
+
+
 class AllowedTest(unittest.TestCase):
 
     def test_ordinary_git_work(self):

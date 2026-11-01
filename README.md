@@ -65,12 +65,26 @@ in its transcript, so the hook does not print a second one. A plugin cannot carr
   a `CLAUDE.md` of its own, and a skill would be loaded only when Claude decides it is relevant.
   Claude Code takes at most 10,000 characters from a hook this way, and a test holds the file
   under that.
-- **Two guards on Bash commands**, as PreToolUse hooks that refuse a command with exit status 2:
-  `keep-git-hooks.py` refuses commands that skip or switch off a repository's `.githooks` (such
-  as `git push --no-verify` or a change to `core.hooksPath`), and `plan-only.py` refuses
-  OpenTofu or Terraform commands that change infrastructure or its state. The `.githooks/pre-push`
-  they protect stays in each repository that has one, because git runs a hook from a fixed path
-  and the plugin's path changes with every version.
+- **Two guards**, as PreToolUse hooks that refuse a command with exit status 2, or ask Gunnar
+  first where a change is sometimes wanted:
+  - `keep-git-hooks.py` refuses commands that skip, switch off or write over a repository's
+    `.githooks` (such as `git push --no-verify`, a change to `core.hooksPath`, or `cp`, `tee` or
+    `sed -i` onto a hook). Claude's own Write and Edit onto a hook ask instead, since that is how
+    a hook is changed in a pull request.
+  - `plan-only.py` refuses OpenTofu or Terraform commands that change infrastructure or its state,
+    `tofu init -force-copy` and `tofu workspace select -or-create` included. TaskFest's
+    `env.sh up`, `down` and `account`, which apply after showing their plan, ask instead. Text
+    that git or the GitHub CLI only stores, such as a commit message or a pull request's body, is
+    not read as a command, unless the shell would expand something in it.
+
+  Both match text rather than parse the shell, on purpose: a false alarm costs a reworded command,
+  a miss an apply. One of each is accepted (ai-assisted-todolist#470): a here-document with an
+  unquoted delimiter is read as commands even when it is a commit message, because the shell
+  expands what is in it; and a hook written over by something neither guard knows, a script for
+  one, still gets past them. The
+  `main-branch` ruleset on GitHub is what keeps a push from `main` in the end. The
+  `.githooks/pre-push` they protect stays in each repository that has one, because git runs a hook
+  from a fixed path and the plugin's path changes with every version.
 
 The repository's own `CLAUDE.md` keeps its own rules and names what the shared ones leave to it,
 such as its GitHub project. Where the two disagree, the repository's `CLAUDE.md` wins.

@@ -50,13 +50,16 @@ class PreToolUseTest(unittest.TestCase):
 
     def test_every_guard_named_exists(self):
         guards = [path for hook in commands("PreToolUse") for path in files(hook)]
-        self.assertEqual(["keep-git-hooks.py", "plan-only.py"], [path.name for path in guards])
+        self.assertEqual(["keep-git-hooks.py", "plan-only.py", "keep-git-hooks.py"],
+                         [path.name for path in guards])
         for path in guards:
             with self.subTest(path.name):
                 self.assertTrue(path.is_file())
 
-    def test_guards_watch_bash_only(self):
-        self.assertEqual(["Bash"], [group["matcher"] for group in HOOKS["PreToolUse"]])
+    def test_guards_watch_bash_and_file_writes(self):
+        # Claude's own file tools can write over a git hook as a command can (#470).
+        self.assertEqual(["Bash", "Write|Edit|MultiEdit|NotebookEdit"],
+                         [group["matcher"] for group in HOOKS["PreToolUse"]])
 
 
 if __name__ == "__main__":

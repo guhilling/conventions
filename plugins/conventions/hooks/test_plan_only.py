@@ -35,6 +35,36 @@ class RefusedTest(unittest.TestCase):
             with self.subTest(command):
                 self.assertTrue(hook.changes_infrastructure(command))
 
+    def test_the_ways_around_it_found_on_470(self):
+        for command in [# Migrating state without asking, and making a workspace by selecting it.
+                        "tofu init -force-copy", "tofu workspace select -or-create other",
+                        # A message whose command substitution would run it.
+                        'git commit -m "$(tofu apply -auto-approve)"',
+                        "gh pr create --body \"`tofu destroy`\"",
+                        # A here-document read by a shell, not by git or gh.
+                        "bash <<'EOF'\ntofu apply\nEOF"]:
+            with self.subTest(command):
+                self.assertTrue(hook.changes_infrastructure(command))
+
+
+class ConfirmedTest(unittest.TestCase):
+    """env.sh's own applies: Gunnar confirms them, not refused (his decision on #470)."""
+
+    def test_starting_stopping_and_the_account_root(self):
+        for command in ["./deployment/aws-tofu/env.sh up qa",
+                        "deployment/aws-tofu/env.sh down prod --yes",
+                        "cd deployment/aws-tofu && ./env.sh account", "bash env.sh up qa",
+                        "TASKFEST_QA_AWS_PROFILE=x ./env.sh -y down qa"]:
+            with self.subTest(command):
+                self.assertTrue(hook.lifecycle(command))
+                self.assertFalse(hook.changes_infrastructure(command))
+
+    def test_what_env_sh_does_besides(self):
+        for command in ["./deployment/aws-tofu/env.sh status qa", "./env.sh help",
+                        "./env.sh migrate qa", "./env.sh db-bootstrap qa", "grep -n up env.sh"]:
+            with self.subTest(command):
+                self.assertFalse(hook.lifecycle(command))
+
 
 class AllowedTest(unittest.TestCase):
 
@@ -46,6 +76,21 @@ class AllowedTest(unittest.TestCase):
                         "git commit -m 'apply review fixes'", "grep apply README.md"]:
             with self.subTest(command):
                 self.assertFalse(hook.changes_infrastructure(command))
+
+    def test_selecting_a_workspace_that_exists(self):
+        self.assertFalse(hook.changes_infrastructure("tofu workspace select other"))
+
+    def test_text_that_only_mentions_a_change(self):
+        # A message or a body is text to git and gh, and runs nothing.
+        for command in ["git commit -m 'Gunnar runs tofu apply himself'",
+                        'gh pr create --title "Docs" --body "Then run tofu apply on qa."',
+                        "gh pr comment 3 --body='run ./env.sh up qa first'",
+                        "git commit -m \"$(cat <<'EOF'\nRun tofu apply, then env.sh up.\nEOF\n)\"",
+                        "git commit -F - <<'EOF'\nRun tofu destroy only by hand.\nEOF",
+                        "gh pr create --body-file - <<'EOF'\nenv.sh down qa\nEOF\ngit status"]:
+            with self.subTest(command):
+                self.assertFalse(hook.changes_infrastructure(command))
+                self.assertFalse(hook.lifecycle(command))
 
 
 if __name__ == "__main__":
