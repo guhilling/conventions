@@ -66,3 +66,11 @@ jobs:
         run: |
           npx -y @anthropic-ai/claude-code@latest plugin validate .
           npx -y @anthropic-ai/claude-code@latest plugin validate plugins/conventions
+
+  palette:
+    name: palette
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: palette.css and the table are what palette.json says
+        run: python3 -m unittest discover -s palette -p 'test_*.py' -v
