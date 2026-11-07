@@ -20,6 +20,7 @@ USES = {
     "logo-dot": "The dot in the logo, on light backgrounds.",
     "red": "Errors on light backgrounds.",
     "light-red": "Errors on dark backgrounds.",
+    "pale-red": "The light red, just lighter (same hue and saturation): errors on dark grey surfaces.",
     "white": "Light backgrounds; text on the blue.",
     "light-grey": "Quiet surfaces and lines on light backgrounds; text on dark ones.",
     "mid-grey": "Secondary text on dark backgrounds.",
