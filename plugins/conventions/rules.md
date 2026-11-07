@@ -1,7 +1,7 @@
 # Shared working conventions
 
 These rules come from the `conventions` plugin in
-[dev-conventions](https://github.com/guhilling/dev-conventions), which prints them at the start
+[conventions](https://github.com/guhilling/conventions), which prints them at the start
 of every session. They hold in every repository that enables the plugin. The repository's own
 `CLAUDE.md` adds the rules that are its own and names the details these leave to it, such as its
 GitHub project; where it says something different, the repository's `CLAUDE.md` wins.
@@ -42,7 +42,7 @@ slows things down.
 - **Long topics are chapters**: `doc/<chapter>/index.md` plus one page per sub-chapter, ordered by
   the chapter's index. A reference anywhere in the repository names the exact page it means
   (`doc/<chapter>/<page>.md`, not a section of a long file), and
-  the shared `check-doc-references` action from [dev-conventions](https://github.com/guhilling/dev-conventions)
+  the shared `check-doc-references` action from [conventions](https://github.com/guhilling/conventions)
   fails CI when one names a page that does not exist.
 - Never commit secrets (API keys, OIDC client secrets, real credentials,
   etc.). Only local, testing-only placeholder values belong in the repo
