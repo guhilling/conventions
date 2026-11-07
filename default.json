@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": [
-    "The Renovate policy shared by guhilling's repositories: extend it as github>guhilling/dev-conventions#vX.Y.Z and add only what is the repository's own.",
+    "The Renovate policy shared by guhilling's repositories: extend it as github>guhilling/conventions#vX.Y.Z and add only what is the repository's own.",
     "Deliberate: schedule restricts when pull requests are OPENED, not when they merge.",
     "Renovate reports 'Automerge: At any time (no schedule defined)' regardless of it.",
     "Renovate can also be told to run directly from the Mend dashboard, so activity",

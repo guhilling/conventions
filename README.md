@@ -1,4 +1,4 @@
-# dev-conventions
+# conventions
 
 The working conventions shared by Gunnar Hilling's repositories, so that a fix reaches every one
 of them instead of one copy. It started with
@@ -14,7 +14,7 @@ not links, so nothing else notices when the page they name moves.
 
 ```yaml
 - uses: actions/checkout@v7
-- uses: guhilling/dev-conventions/check-doc-references@<commit sha> # v1.0.0
+- uses: guhilling/conventions/check-doc-references@<commit sha> # v1.0.0
   # Optional: prefixes to leave alone, one per line, such as generated files.
   with:
     exclude: |
@@ -28,7 +28,7 @@ trailing slash. Only files git tracks are read.
 To run it locally, from anywhere inside the repository:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/guhilling/dev-conventions/v1.0.0/check-doc-references/check_doc_references.py | python3 - --exclude doc/api/
+curl -fsSL https://raw.githubusercontent.com/guhilling/conventions/v1.0.0/check-doc-references/check_doc_references.py | python3 - --exclude doc/api/
 ```
 
 ## Renovate preset
@@ -39,7 +39,7 @@ waiting for a human. A repository extends it and adds only its own rules on top:
 
 ```json
 {
-  "extends": ["github>guhilling/dev-conventions#v1.1.0"]
+  "extends": ["github>guhilling/conventions#v1.1.0"]
 }
 ```
 
@@ -53,7 +53,7 @@ outside it is expected.
 
 ## The `conventions` plugin for Claude Code
 
-This repository is also a Claude Code plugin marketplace, `dev-conventions`, with one plugin,
+This repository is also a Claude Code plugin marketplace, `conventions`, with one plugin,
 `conventions`. It holds what the repositories' `CLAUDE.md` files used to repeat:
 
 - **The shared rules**, [`plugins/conventions/rules.md`](plugins/conventions/rules.md): asking
@@ -94,21 +94,21 @@ A repository turns the plugin on in its committed `.claude/settings.json`, pinne
 ```json
 {
   "extraKnownMarketplaces": {
-    "dev-conventions": {
+    "conventions": {
       "source": {
         "source": "github",
-        "repo": "guhilling/dev-conventions",
-        "ref": "v1.2.0"
+        "repo": "guhilling/conventions",
+        "ref": "v2.0.0"
       }
     }
   },
   "enabledPlugins": {
-    "conventions@dev-conventions": true
+    "conventions@conventions": true
   }
 }
 ```
 
-`claude plugin marketplace add guhilling/dev-conventions#v1.2.0 --scope project` writes the first
+`claude plugin marketplace add guhilling/conventions#v2.0.0 --scope project` writes the first
 half. The plugin is listed by a relative path inside the marketplace, so once someone has trusted
 the folder, Claude Code loads it from the marketplace's checkout without a separate install. The
 plugin sets no `version`, so its version is the commit the tag names. Renovate has no manager for
@@ -118,7 +118,7 @@ this pin, so each repository moves it with a regex manager:
 {
   "customType": "regex",
   "managerFilePatterns": ["/^\\.claude/settings\\.json$/"],
-  "matchStrings": ["\"repo\":\\s*\"(?<depName>guhilling/dev-conventions)\",\\s*\"ref\":\\s*\"(?<currentValue>v[^\"]+)\""],
+  "matchStrings": ["\"repo\":\\s*\"(?<depName>guhilling/conventions)\",\\s*\"ref\":\\s*\"(?<currentValue>v[^\"]+)\""],
   "datasourceTemplate": "github-tags"
 }
 ```
@@ -146,6 +146,12 @@ A release is a lightweight tag `vX.Y.Z` on `main`, without a GitHub Release. A f
 anything a caller has to change for is a major. Callers of the action pin the commit SHA with the
 tag in a comment; the plugin is pinned by the tag itself, because `.claude/settings.json` has no
 comments to carry it. Either way Renovate opens the pull request that moves them to a new tag.
+
+The repository was called `dev-conventions` until 2026-11-07, and so was the marketplace. v2.0.0 is
+the first tag with the new names: a repository moving to it changes the marketplace's key and
+`repo` in `.claude/settings.json`, the plugin's identifier to `conventions@conventions`, and the
+`depName` in its Renovate regex manager. GitHub redirects the old repository name, so older tags
+and pins keep working until then.
 
 ## License
 
