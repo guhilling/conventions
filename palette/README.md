@@ -27,6 +27,7 @@ and [TaskFest's](https://github.com/guhilling/ai-assisted-todolist/blob/main/doc
 | `logo-dot` | `#f28b4b` | The dot in the logo, on light backgrounds. | 2.5:1 | 7.7:1 |
 | `red` | `#b42318` | Errors on light backgrounds. | 6.6:1 | 2.9:1 |
 | `light-red` | `#f04438` | Errors on dark backgrounds. | 3.8:1 | 5.0:1 |
+| `pale-red` | `#f3685e` | The light red, just lighter (same hue and saturation): errors on dark grey surfaces. | 3.0:1 | 6.3:1 |
 | `white` | `#ffffff` | Light backgrounds; text on the blue. | 1.0:1 | 18.9:1 |
 | `light-grey` | `#f2f2f2` | Quiet surfaces and lines on light backgrounds; text on dark ones. | 1.1:1 | 16.9:1 |
 | `mid-grey` | `#a9a9a9` | Secondary text on dark backgrounds. | 2.4:1 | 8.0:1 |
