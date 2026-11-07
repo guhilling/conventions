@@ -1,0 +1,16 @@
+/* Generated from palette.json by generate.py; change the colours there. */
+:root {
+  --palette-logo-green: #7eae2a;
+  --palette-logo-green-dark: #58791d;
+  --palette-logo-blue: #0067a6;
+  --palette-light-blue: #a6d8f5;
+  --palette-logo-dot: #f28b4b;
+  --palette-red: #b42318;
+  --palette-light-red: #f04438;
+  --palette-white: #ffffff;
+  --palette-light-grey: #f2f2f2;
+  --palette-mid-grey: #a9a9a9;
+  --palette-grey: #656565;
+  --palette-dark-grey: #2d2d2d;
+  --palette-near-black: #111111;
+}

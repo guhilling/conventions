@@ -1,7 +1,7 @@
 # conventions
 
-The working conventions shared by Gunnar Hilling's repositories, so that a fix reaches every one
-of them instead of one copy. It started with
+The conventions shared by Gunnar Hilling's repositories, so that a fix reaches every one of them
+instead of one copy: how they are worked on, and since v2.1.0 the colours they look by. It started with
 [ai-assisted-todolist](https://github.com/guhilling/ai-assisted-todolist) (TaskFest) and
 hilling-it-website; [ai-assisted-todolist#400](https://github.com/guhilling/ai-assisted-todolist/issues/400)
 says what is shared and why.
@@ -30,6 +30,11 @@ To run it locally, from anywhere inside the repository:
 ```sh
 curl -fsSL https://raw.githubusercontent.com/guhilling/conventions/v1.0.0/check-doc-references/check_doc_references.py | python3 - --exclude doc/api/
 ```
+
+## The palette
+
+[`palette/`](palette/README.md) holds the colours Gunnar's sites and apps share, those of the
+hilling.it logo, with what each is for and its contrast, as JSON and as CSS custom properties.
 
 ## Renovate preset
 
