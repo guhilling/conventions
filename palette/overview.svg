@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="490" viewBox="0 0 940 490">
+<rect width="940" height="490" fill="#ffffff"/>
+<text x="16" y="38" font-size="15" font-weight="600" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">White and greys</text>
+<rect x="150.5" y="10.5" width="119" height="47" rx="4" fill="#ffffff" stroke="#888888"/>
+<text x="150" y="76" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">white</text>
+<text x="150" y="92" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#ffffff</text>
+<rect x="280.5" y="10.5" width="119" height="47" rx="4" fill="#f2f2f2" stroke="#888888"/>
+<text x="280" y="76" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">light-grey</text>
+<text x="280" y="92" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#f2f2f2</text>
+<rect x="410.5" y="10.5" width="119" height="47" rx="4" fill="#a9a9a9" stroke="#888888"/>
+<text x="410" y="76" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">mid-grey</text>
+<text x="410" y="92" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#a9a9a9</text>
+<rect x="540.5" y="10.5" width="119" height="47" rx="4" fill="#656565" stroke="#888888"/>
+<text x="540" y="76" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">grey</text>
+<text x="540" y="92" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#656565</text>
+<rect x="670.5" y="10.5" width="119" height="47" rx="4" fill="#2d2d2d" stroke="#888888"/>
+<text x="670" y="76" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">dark-grey</text>
+<text x="670" y="92" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#2d2d2d</text>
+<rect x="800.5" y="10.5" width="119" height="47" rx="4" fill="#111111" stroke="#888888"/>
+<text x="800" y="76" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">near-black</text>
+<text x="800" y="92" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#111111</text>
+<text x="16" y="134" font-size="15" font-weight="600" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">Red</text>
+<rect x="150.5" y="106.5" width="119" height="47" rx="4" fill="#f3685e" stroke="#888888"/>
+<text x="150" y="172" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">pale-red</text>
+<text x="150" y="188" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#f3685e</text>
+<rect x="280.5" y="106.5" width="119" height="47" rx="4" fill="#f04438" stroke="#888888"/>
+<text x="280" y="172" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">light-red</text>
+<text x="280" y="188" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#f04438</text>
+<rect x="410.5" y="106.5" width="119" height="47" rx="4" fill="#b42318" stroke="#888888"/>
+<text x="410" y="172" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">red</text>
+<text x="410" y="188" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#b42318</text>
+<text x="16" y="230" font-size="15" font-weight="600" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">Orange</text>
+<rect x="150.5" y="202.5" width="119" height="47" rx="4" fill="#f28b4b" stroke="#888888"/>
+<text x="150" y="268" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">logo-dot</text>
+<text x="150" y="284" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#f28b4b</text>
+<text x="16" y="326" font-size="15" font-weight="600" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">Green</text>
+<rect x="150.5" y="298.5" width="119" height="47" rx="4" fill="#7eae2a" stroke="#888888"/>
+<text x="150" y="364" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">logo-green</text>
+<text x="150" y="380" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#7eae2a</text>
+<rect x="280.5" y="298.5" width="119" height="47" rx="4" fill="#58791d" stroke="#888888"/>
+<text x="280" y="364" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">logo-green-dark</text>
+<text x="280" y="380" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#58791d</text>
+<text x="16" y="422" font-size="15" font-weight="600" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">Blue</text>
+<rect x="150.5" y="394.5" width="119" height="47" rx="4" fill="#a6d8f5" stroke="#888888"/>
+<text x="150" y="460" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">light-blue</text>
+<text x="150" y="476" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#a6d8f5</text>
+<rect x="280.5" y="394.5" width="119" height="47" rx="4" fill="#0067a6" stroke="#888888"/>
+<text x="280" y="460" font-size="13" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">logo-blue</text>
+<text x="280" y="476" font-size="12" font-family="Inter Tight, Helvetica, Arial, sans-serif" fill="#111111">#0067a6</text>
+</svg>
