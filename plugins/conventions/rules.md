@@ -93,6 +93,11 @@ slows things down.
   no parameter nobody asked for, no handling of a case that cannot occur; a shortcut taken on
   purpose is said so in the code. The test, the code's own documentation and the page in `/doc`
   are part of the change, never the lines to save.
+- **Offer the simpler version.** When a change would make the code noticeably more complex, above
+  all a new feature or the "final touch" on something, say so before building it and explicitly
+  offer a simpler version: what it leaves out, and how much less code it is. Gunnar chooses.
+  Complicated code is hard to maintain, and he would rather drop a nicety than keep it (Gunnar,
+  2026-11-21).
 - **Never change or disable an existing unit test without asking Gunnar
   first.** This includes editing its assertions/setup, deleting it, or
   marking it skipped/disabled — always ask before touching a test that
